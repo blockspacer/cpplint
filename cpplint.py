@@ -282,6 +282,7 @@ _ERROR_CATEGORIES = [
     'build/include_alpha',
     'build/include_order',
     'build/include_what_you_use',
+    'build/namespaces_headers',
     'build/namespaces_literals',
     'build/namespaces',
     'build/printf_format',
@@ -5096,7 +5097,7 @@ def CheckLanguage(filename, clean_lines, linenum, file_extension,
   if (IsHeaderExtension(file_extension)
       and Search(r'\bnamespace\s*{', line)
       and line[-1] != '\\'):
-    error(filename, linenum, 'build/namespaces', 4,
+    error(filename, linenum, 'build/namespaces_headers', 4,
           'Do not use unnamed namespaces in header files.  See '
           'https://google-styleguide.googlecode.com/svn/trunk/cppguide.xml#Namespaces'
           ' for more information.')
