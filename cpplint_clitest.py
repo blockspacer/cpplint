@@ -77,6 +77,8 @@ class TemporaryFolderClassSetup(object):
     lines at end).
     """
 
+    maxDiff = None
+
     @classmethod
     def setUpClass(cls):
         """setup tmp folder for testing with samples and custom additions by subclasses"""
@@ -160,7 +162,7 @@ class NoRepoSignatureTests(TemporaryFolderClassSetup, unittest.TestCase):
         self.checkAllInFolder('./samples/silly-sample', 2)
 
     def testBoostSample(self):
-        self.checkAllInFolder('./samples/boost-sample', 2)
+        self.checkAllInFolder('./samples/boost-sample', 3)
 
     def testProtobufSample(self):
         self.checkAllInFolder('./samples/protobuf-sample', 1)
