@@ -667,6 +667,33 @@ _C_HEADERS = frozenset([
     'xmmintin.h',
     ])
 
+# Folders of C libraries so commonly used in C++,
+# that they have parity with standard C libraries.
+C_STANDARD_HEADER_FOLDERS = frozenset([
+    # standard C library
+    "sys",
+    # glibc for linux
+    "arpa",
+    "asm-generic",
+    "bits",
+    "gnu",
+    "net",
+    "netinet",
+    "protocols",
+    "rpc",
+    "rpcsvc",
+    "scsi",
+    # linux kernel header
+    "drm",
+    "linux",
+    "misc",
+    "mtd",
+    "rdma",
+    "sound",
+    "video",
+    "xen",
+  ])
+
 # Type names
 _TYPES = re.compile(
     r'^(?:'
@@ -4902,10 +4929,10 @@ def _ClassifyInclude(fileinfo, include, used_angle_brackets):
   # those already checked for above.
   is_cpp_h = include in _CPP_HEADERS
 
-  # Mark include as C header if in list or of type 'sys/*.h'.
-  is_c_h = (include in _C_HEADERS or Search(r'sys\/.*\.h', include)
-            # additional linux glibc headers
-            or Search(r'(?:arpa|bits|gnu|net|netinet|protocols|rpc|rpcsvc|scsi)\/.*\.h', include))
+  # Mark include as C header if in list or in a known folder for standard-ish C headers.
+  is_c_h = (include in _C_HEADERS
+            # additional linux glibc header folders
+            or Search(r'(?:%s)\/.*\.h' % "|".join(C_STANDARD_HEADER_FOLDERS), include))
 
   # Headers with C++ extensions shouldn't be considered C system headers
   is_system = used_angle_brackets and not os.path.splitext(include)[1] in ['.hpp', '.hxx', '.h++']
